@@ -3,7 +3,7 @@
 Plugin Name: WP Infinite Scroll Pages
 Plugin URI: https://eris.nu
 Description:
-Version: 0.0.1
+Version: 1.0.0
 Author: Jaap Marcus
 Author URI: https://eris.nu
 Text Domain: -
@@ -11,8 +11,8 @@ Text Domain: -
 
 class WP_Infinite_Scroll
 {
-  public const NAME = 'custom_wp_links';
-  public const VERSION = '0.0.1';
+  public const NAME = 'wp-infinite-scroll';
+  public const VERSION = '1.0.0';
 
   private static $instance = null;
   public static $plugin_basename = null;
@@ -71,6 +71,8 @@ class WP_Infinite_Scroll
         $url = $this -> create_link($page + 1);
         $div = '<div id="infinite-scroll" data-href="'.$url.'"></div>';
         $content = $content . $div;
+      }else{
+        if (function_exists ('adinserter')) echo adinserter (3);
       }
     }
     return $content;

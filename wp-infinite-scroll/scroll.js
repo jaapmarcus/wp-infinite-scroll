@@ -32,20 +32,25 @@ function inViewPort (el) {
 }
 
 async function downloadPage(url){
-   fetch(url).then(response => response.text())
-   .then(text => {
-     const parser = new DOMParser();
-     const htmlDocument = parser.parseFromString(text, "text/html");
-     //this is de only line that need to be updated
-     // contains content of post without title and so on... 
-     dom = htmlDocument.documentElement.querySelector(".entry-content");
-     div = document.getElementById('infinite-scroll');
-     div.id = 'temp';
-     //element = document.getElementById('temp');
-     //update url
-     window.history.pushState("", "", url);
-     div.parentNode.insertBefore(dom,div);
-     div.remove();
-     initScroll();
-   })
-  }
+  fetch(url).then(response => response.text())
+    .then(text => {
+    console.log('New content loading');
+    const parser = new DOMParser();
+    const htmlDocument = parser.parseFromString(text, "text/html");
+    div = document.getElementById('infinite-scroll');
+    div.id = 'temp';
+    dom = htmlDocument.documentElement.querySelector(".td-post-content");
+    dom.childNodes.forEach(function (node) {
+      if (node.nodeName != '#text' && node.nodeName != 'STYLE') {
+     console.log(node.nodeName);
+        console.log(document.getElementById('temp').parentNode);
+        document.getElementById('temp').parentNode.parentNode.appendChild(node);
+        console.log(node);
+      }
+    });
+    console.log('New content loaded');
+    div.remove();
+    window.history.pushState("", "", url);
+    initScroll();
+  })
+ }
